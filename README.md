@@ -2,8 +2,8 @@
 
 # VPN Hospot
 
-**HTTP Proxy & SOCKS5 Proxy for Android**  
-*Share your VPN connection via Wi-Fi Hotspot and USB Tethering*
+**HTTP + SOCKS5 Proxy Server for Android**
+*Share your VPN connection over Wi-Fi Hotspot and USB Tethering — TCP + UDP support, VPN-aware routing, zero traffic leaks*
 
 [![Release](https://img.shields.io/github/v/release/jhopan/Vpn-Hospot?style=for-the-badge&color=blue)](https://github.com/jhopan/Vpn-Hospot/releases/latest)
 [![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](LICENSE)
