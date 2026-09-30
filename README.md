@@ -5,7 +5,7 @@
 **HTTP Proxy & SOCKS5 Proxy for Android**  
 *Share your VPN connection via Wi-Fi Hotspot and USB Tethering*
 
-[![Release](https://img.shields.io/github/v/release/jhopan/VpnHospotByJhopanStore?style=for-the-badge&color=blue)](https://github.com/jhopan/VpnHospotByJhopanStore/releases/latest)
+[![Release](https://img.shields.io/github/v/release/jhopan/Vpn-Hospot?style=for-the-badge&color=blue)](https://github.com/jhopan/Vpn-Hospot/releases/latest)
 [![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](LICENSE)
 [![Java](https://img.shields.io/badge/java-17-orange?style=for-the-badge&logo=openjdk)](#requirements)
 [![Android](https://img.shields.io/badge/android-5.0+-green?style=for-the-badge&logo=android)](#requirements)
@@ -43,7 +43,7 @@ VPN Hospot transforms your Android device into a proxy server, allowing you to s
 
 ## Download
 
-Get the latest release from [GitHub Releases](https://github.com/jhopan/VpnHospotByJhopanStore/releases/latest).
+Get the latest release from [GitHub Releases](https://github.com/jhopan/Vpn-Hospot/releases/latest).
 
 | Variant | Architecture | Description |
 |---------|-------------|-------------|
@@ -89,19 +89,7 @@ Get the latest release from [GitHub Releases](https://github.com/jhopan/VpnHospo
 
 ### 3. SOCKS5 Clients
 
-For SOCKS5 proxy (port `1080`), use compatible applications:
-
-**Mobile:**
-- Socks Client by JhopanStore (Android)
-
-**Desktop:**
-- Proxifier (Windows/macOS)
-- SocksCap64 (Windows)
-- `proxychains4` (Linux)
-
-**Browsers:**
-- Firefox: Settings → Network Settings → Manual proxy → SOCKS Host
-- Telegram: Settings → Data and Storage → Use Proxy → SOCKS5
+For SOCKS5 proxy (port `1080`), use **Socks Client by JhopanStore** (available for Android and Desktop). Get it via the developer's Telegram — see **Info Developer** in the app.
 
 ## Technical Details
 
@@ -144,8 +132,8 @@ Enhanced UDP ASSOCIATE with advanced session management:
 ### Clone and Build
 
 ```bash
-git clone https://github.com/jhopan/VpnHospotByJhopanStore.git
-cd VpnHospotByJhopanStore
+git clone https://github.com/jhopan/Vpn-Hospot.git
+cd Vpn-Hospot
 ./gradlew assembleDebug
 ```
 
@@ -159,13 +147,17 @@ Debug APK: `app/build/outputs/apk/debug/`
 
 Release APKs: `app/build/outputs/apk/release/` (3 variants)
 
+Release builds are signed with a project keystore. The keystore file is not committed (gitignored) and must be placed at `app/vpnhospot-release.keystore`. Set the passwords via environment variables `VPN_HOSPOT_KEYSTORE_PASSWORD` and `VPN_HOSPOT_KEY_PASSWORD`, or via Gradle properties `vpnHospot.keystorePassword` / `vpnHospot.keyPassword`.
+
 ### Automated Release
 
-Create a new release via GitHub Actions:
+Releases are built and signed by GitHub Actions using keystore secrets configured in the repo.
+
+Create a new release:
 
 ```bash
-git tag v1.0.0
-git push origin v1.0.0
+git tag v1.1.0
+git push origin v1.1.0
 ```
 
 ## Configuration
@@ -177,9 +169,9 @@ git push origin v1.0.0
 
 Both ports are configurable in the app interface.
 
-### Traffic Counting
+### Internet Meter
 
-Enable/disable real-time traffic monitoring via the toggle switch in the app.
+Enable/disable real-time traffic monitoring (download/upload) via the "Internet Meter" toggle switch in the app.
 
 ## Known Limitations
 
@@ -216,6 +208,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Made with ❤️ by JhopanStore**
 
-[Report Bug](https://github.com/jhopan/VpnHospotByJhopanStore/issues) · [Request Feature](https://github.com/jhopan/VpnHospotByJhopanStore/issues)
+[Report Bug](https://github.com/jhopan/Vpn-Hospot/issues) · [Request Feature](https://github.com/jhopan/Vpn-Hospot/issues)
 
 </div>

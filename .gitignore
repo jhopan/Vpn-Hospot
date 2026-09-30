@@ -24,3 +24,6 @@ Thumbs.db
 local.properties
 .gradle/
 captures/
+
+# Agent instructions (local only, not for the repo)
+AGENTS.md
