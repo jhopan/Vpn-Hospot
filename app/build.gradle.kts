@@ -39,7 +39,22 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("debug")
+            // Sign release builds with the project keystore when present.
+            // CI injects it via GitHub secrets; local devs must place the
+            // .keystore file at app/vpnhospot-release.keystore themselves.
+            val keystoreFile = rootProject.file("app/vpnhospot-release.keystore")
+            val storePwd = providers.environmentVariable("VPN_HOSPOT_KEYSTORE_PASSWORD")
+                .orElse(providers.gradleProperty("vpnHospot.keystorePassword")).orNull
+            val keyPwd = providers.environmentVariable("VPN_HOSPOT_KEY_PASSWORD")
+                .orElse(providers.gradleProperty("vpnHospot.keyPassword")).orNull
+            if (keystoreFile.exists() && storePwd != null && keyPwd != null) {
+                signingConfig = signingConfigs.create("release") {
+                    this.storeFile = keystoreFile
+                    this.storePassword = storePwd
+                    this.keyAlias = "vpnhospot"
+                    this.keyPassword = keyPwd
+                }
+            }
         }
     }
 

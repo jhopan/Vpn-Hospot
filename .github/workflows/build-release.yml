@@ -28,6 +28,13 @@ jobs:
       - name: Grant execute permission
         run: chmod +x gradlew
 
+      - name: Decode release keystore
+        env:
+          VPN_HOSPOT_KEYSTORE: ${{ secrets.VPN_HOSPOT_KEYSTORE }}
+        run: |
+          echo "$VPN_HOSPOT_KEYSTORE" | base64 -d > app/vpnhospot-release.keystore
+          echo "Keystore decoded: $(stat -c%s app/vpnhospot-release.keystore) bytes"
+
       - name: Extract version from tag
         run: |
           VERSION=${GITHUB_REF#refs/tags/v}
@@ -35,6 +42,9 @@ jobs:
           echo "Building version: ${VERSION}"
 
       - name: Build Release APKs
+        env:
+          VPN_HOSPOT_KEYSTORE_PASSWORD: ${{ secrets.VPN_HOSPOT_KEYSTORE_PASSWORD }}
+          VPN_HOSPOT_KEY_PASSWORD: ${{ secrets.VPN_HOSPOT_KEY_PASSWORD }}
         run: ./gradlew :app:assembleRelease
 
       - name: Rename APKs

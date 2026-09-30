@@ -119,6 +119,21 @@ public class MainActivity extends Activity {
         title.setGravity(Gravity.CENTER);
         root.addView(title, matchWrap());
 
+        TextView subtitle = text("by JhopanStore", 14, false);
+        subtitle.setGravity(Gravity.CENTER);
+        subtitle.setTextColor(TEXT_SECONDARY);
+        root.addView(subtitle, marginTop(matchWrap(), 2));
+
+        String appVersion = "v1.0.0";
+        try {
+            appVersion = "v" + getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+        } catch (Exception ignored) {
+        }
+        TextView versionText = text(appVersion, 12, false);
+        versionText.setGravity(Gravity.CENTER);
+        versionText.setTextColor(TEXT_SECONDARY);
+        root.addView(versionText, marginTop(matchWrap(), 2));
+
         LinearLayout ports = row();
         httpPortInput = portInput("8080", prefs.getInt("http_port", 8080));
         socksPortInput = portInput("1080", prefs.getInt("socks_port", 1080));
@@ -128,7 +143,7 @@ public class MainActivity extends Activity {
         root.addView(ports, marginTop(matchWrap(), 20));
 
         trafficSwitch = new Switch(this);
-        trafficSwitch.setText("Hitung Download / Upload");
+        trafficSwitch.setText("Internet Meter");
         trafficSwitch.setTextSize(15);
         trafficSwitch.setTextColor(TEXT_PRIMARY);
         trafficSwitch.setChecked(prefs.getBoolean("count_traffic", true));
@@ -362,37 +377,18 @@ public class MainActivity extends Activity {
         int socksPort = bound && service != null && service.isRunning() ? service.socksPort() : parsePort(socksPortInput, 1080);
         String guide = "SOCKS5 Proxy adalah protokol yang lebih canggih dari HTTP Proxy. "
                 + "Support TCP + UDP, cocok untuk VPN, gaming, dan aplikasi yang butuh UDP.\n\n"
-                + "═══ CARA KONEK ═══\n\n"
-                + "📌 1) Pakai Socks Client App (RECOMMENDED)\n"
-                + "- Install app \"Socks Client by JhopanStore\" di HP client.\n"
-                + "- Hubungkan HP client ke hotspot/USB tether server.\n"
+                + "1) Socks Client by JhopanStore\n"
+                + "- Tersedia untuk Android dan Desktop.\n"
+                + "- Ambil aplikasinya lewat Telegram JhopanStore (lihat Info Developer).\n"
+                + "- Install di HP/PC client.\n"
+                + "- Hubungkan perangkat client ke hotspot/USB tether server.\n"
                 + "- Buka Socks Client, isi:\n"
-                + "  • Host: IP server (lihat di app ini)\n"
-                + "  • Port: " + socksPort + "\n"
-                + "  • Username & Password: kosongkan (kecuali server pakai auth)\n"
-                + "- Tekan \"Connect Socks VPN\" → izinkan VPN Android.\n"
-                + "- SEMUA trafik (TCP + UDP) otomatis lewat SOCKS5!\n\n"
-                + "📌 2) Dari Aplikasi yang Support SOCKS5\n"
-                + "Beberapa aplikasi punya setting SOCKS5 bawaan:\n"
-                + "- Telegram: Settings > Data & Storage > Use Proxy > Add SOCKS5\n"
-                + "- Firefox: Settings > Network Settings > Manual proxy > SOCKS Host\n"
-                + "- Socks IP: IP server, Port: " + socksPort + "\n\n"
-                + "📌 3) Dari PC/Laptop\n"
-                + "- Windows: Gunakan app seperti Proxifier atau SocksCap64\n"
-                + "- Linux: proxychains4 atau tsocks\n"
-                + "  $ export ALL_PROXY=socks5://IP:" + socksPort + "\n"
-                + "- macOS: sama seperti HTTP proxy tapi pilih SOCKS Proxy\n\n"
-                + "═══ KEUNGGULAN SOCKS5 ═══\n\n"
-                + "• TCP + UDP (HTTP proxy hanya TCP)\n"
-                + "• DNS remote via tunnel (anti DNS leak)\n"
-                + "• Support semua protokol (game, VoIP, streaming)\n"
-                + "• Lebih cepat untuk UDP-heavy apps\n\n"
-                + "═══ TROUBLESHOOTING ═══\n\n"
-                + "❌ Failed connect → Cek HP client terhubung ke hotspot server\n"
-                + "❌ Auth failed → Pastikan username/password benar\n"
-                + "❌ UDP tidak jalan → Server harus support UDP Associate\n"
-                + "❌ Internet lambat → Cek sinyal data HP server\n\n"
-                + "💡 Tips: Untuk gaming, pastikan server punya sinyal data yang kuat!";
+                + "  - Host: IP server (lihat di app ini)\n"
+                + "  - Port: " + socksPort + "\n"
+                + "  - Username & Password: kosongkan (kecuali server pakai auth)\n"
+                + "- Tekan \"Connect Socks VPN\" lalu izinkan VPN Android.\n"
+                + "- Semua trafik (TCP + UDP) otomatis lewat SOCKS5.\n\n"
+                + "Catatan: jalankan Start Proxy dulu, lalu pakai IP yang bertanda Wi-Fi hotspot/USB tether.";
 
         new AlertDialog.Builder(this)
                 .setTitle("Panduan Koneksi SOCKS5")
@@ -402,32 +398,25 @@ public class MainActivity extends Activity {
     }
 
     private void showDeveloperInfo() {
-        String version = "v1.0.0";
-        try {
-            version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
-        } catch (Exception ignored) {
-        }
-        String message = "VPN Hotspot by JhopanStore\n"
-                + "Version: " + version + "\n\n"
-                + "Telegram: https://t.me/jhopan_05\n"
+        String message = "Telegram: https://t.me/jhopan_05\n"
                 + "Website: https://jhopanstore.my.id\n"
                 + "Trakteer: https://trakteer.id/jhopan";
-        
+
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle("Info Developer")
                 .setMessage(message)
-                .setPositiveButton("Telegram", (d, w) -> openUrl("https://t.me/jhopan_05"))
-                .setNegativeButton("Website", (d, w) -> openUrl("https://jhopanstore.my.id"))
-                .setNeutralButton("Trakteer", (d, w) -> openUrl("https://trakteer.id/jhopan"))
+                .setPositiveButton("Website", (d, w) -> openUrl("https://jhopanstore.my.id"))
+                .setNegativeButton("Telegram", (d, w) -> openUrl("https://t.me/jhopan_05"))
+                .setNeutralButton("Tutup", (d, w) -> d.dismiss())
                 .create();
-        
+
         dialog.setOnShowListener(d -> {
             AlertDialog alert = (AlertDialog) d;
             alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(GREEN);
             alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.rgb(70, 130, 180));
             alert.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(Color.rgb(220, 80, 80));
         });
-        
+
         dialog.show();
     }
 

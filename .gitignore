@@ -11,6 +11,11 @@ app/build/
 *.iws
 *.ipr
 
+# Keystore (never commit — backed up outside the repo)
+*.keystore
+*.jks
+app/vpnhospot-release.keystore
+
 # OS
 .DS_Store
 Thumbs.db
